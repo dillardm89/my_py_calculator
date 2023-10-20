@@ -1,112 +1,84 @@
-import time, sys, re
+from tkinter import *
 
-def numbers_list(user_input):
-    numbers = re.findall(r'\d*\.*\d+', user_input)
-    numbers = list(map(float, numbers))
-    return numbers
+def buttonClick(number):
+    global operator
+    operator = operator + str(number)
+    input_value.set(operator)
 
-def return_to_menu():
-    input('Press "Enter" key to return to menu.')
-    menu()
+def buttonClear():
+    global operator
+    operator = ""
+    input_value.set("")
 
-def add():
-    user_input = input('Enter addition statement: ')
-    input_error = re.findall(r'[-/*%=]', user_input)
+def buttonEqual():
+    global operator
+    result = str(eval(operator))
+    input_value.set(result)
+    operator = ""
 
-    while input_error:
-        print('Please enter only "+" operations.')
-        input_error = ""
-        user_input = input('Enter addition statement: ')
+main = Tk()
+main.title("Tui's Calculator")
 
-    if not input_error:
-        numbers = numbers_list(user_input)
+operator = ""
+input_value = StringVar()
+display_text = Entry(main, font=("arial",20,"bold"), textvariable=input_value,bd=30,insertwidth=4,
+                    bg="powder blue", justify=RIGHT)
+display_text.grid(columnspan=4)
 
-        numbers_add = numbers[0]
-        for i in range(1,len(numbers)):
-            numbers_add += numbers[i]
+#   Row 1: 7 8 9 +
 
-        print(numbers_add)
-        return_to_menu()
+btn_7 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "7", command=lambda: buttonClick(7))
+btn_7.grid(row=1,column=0)
 
-def subtract():
-    user_input = input('Enter subtraction statement: ')
-    input_error = re.findall(r'[+/*%=]', user_input)
+btn_8 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "8", command=lambda: buttonClick(8))
+btn_8.grid(row=1,column=1)
 
-    while input_error:
-        print('Please enter only "-" operations.')
-        input_error = ""
-        user_input = input('Enter subtraction statement: ')
+btn_9 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "9", command=lambda: buttonClick(9))
+btn_9.grid(row=1,column=2)
 
-    if not input_error:
-        numbers = numbers_list(user_input)
+btn_add = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "+", command=lambda: buttonClick("+"))
+btn_add.grid(row=1,column=3)
 
-        numbers_subtract = numbers[0]
-        for i in range(1,len(numbers)):
-            numbers_subtract -= numbers[i]
+# Row 2:  4 5 6 -
 
-        print(numbers_subtract)
-        return_to_menu()
+btn_4 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "4", command=lambda: buttonClick(4))
+btn_4.grid(row=2,column=0)
 
-def multiply():
-    user_input = input('Enter multiplication statement: ')
-    input_error = re.findall(r'([*]{2})|[-+/%=]', user_input)
+btn_5 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "5", command=lambda: buttonClick(5))
+btn_5.grid(row=2,column=1)
 
-    while input_error:
-        print('Please enter only "*" operations.')
-        input_error = ""
-        user_input = input('Enter multiplication statement: ')
+btn_6 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "6", command=lambda: buttonClick(6))
+btn_6.grid(row=2,column=2)
 
-    if not input_error:
-        numbers = numbers_list(user_input)
+btn_sub = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "-", command=lambda: buttonClick("-"))
+btn_sub.grid(row=2,column=3)
 
+# Row 3: 1 2 3 *
 
-        numbers_multiply = numbers[0]
-        for i in range(1, len(numbers)):
-            numbers_multiply *= numbers[i]
+btn_1 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "1", command=lambda: buttonClick(1))
+btn_1.grid(row=3,column=0)
 
-        print(numbers_multiply)
-        return_to_menu()
+btn_2 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "2", command=lambda: buttonClick(2))
+btn_2.grid(row=3,column=1)
 
+btn_3 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "3", command=lambda: buttonClick(3))
+btn_3.grid(row=3,column=2)
 
-def divide():
-    user_input = input('Enter division statement: ')
-    input_error = re.findall(r'([/]{2})|[-+*%=]', user_input)
+btn_mul = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "*", command=lambda: buttonClick("*"))
+btn_mul.grid(row=3,column=3)
 
-    while input_error:
-        print('Please enter only "/" operations.')
-        input_error = ""
-        user_input = input('Enter division statement: ')
+# Row 4: 0 C = /
 
-    if not input_error:
-        numbers = numbers_list(user_input)
+btn_0 = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "0", command=lambda: buttonClick(0))
+btn_0.grid(row=4,column=0)
 
-        numbers_divide = numbers[0]
-        for i in range(1, len(numbers)):
-            numbers_divide /= numbers[i]
+btn_clear = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "C", command=buttonClear)
+btn_clear.grid(row=4,column=1)
 
-        print(numbers_divide)
-        return_to_menu()
+btn_equal = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "=", command=buttonEqual)
+btn_equal.grid(row=4,column=2)
 
-def exitCalculator():
-    print('Exiting...')
-    time.sleep(2)
-    sys.exit()
+btn_div = Button(main,padx=16,bd=8,fg="black",font=("arial",20,"bold"), text = "/", command=lambda: buttonClick("/"))
+btn_div.grid(row=4,column=3)
 
-def menu ():
-    print('Calculator Operations:\n1: Add\n2: Subtract\n3: Multiply\n4: Divide\n5: Exit')
-
-    selection = int(input('Enter the operation number: '))
-
-    if selection == 1:
-        add()
-    elif selection == 2:
-        subtract()
-    elif selection == 3:
-        multiply()
-    elif selection == 4:
-        divide()
-    else:
-        exitCalculator()
-
-if __name__ == "__main__":
-    menu()
+main.mainloop()
